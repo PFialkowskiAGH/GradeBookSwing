@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +16,28 @@ public class Main {
         ClassOfStudent firstClass = new ClassOfStudent("1a", studentsList, 4);
         ClassOfStudentContainer firstContainer = new ClassOfStudentContainer();
         firstContainer.addClass(firstClass.className, firstClass);
+        ClassOfStudent secondClass = new ClassOfStudent("1b", new ArrayList<>(), 12);
+        firstContainer.addClass(secondClass.className, secondClass);
         //////////////////////////////////////////////////////////////////////
-        ClassContainerTableModel table = new ClassContainerTableModel(firstContainer.mapOfClasses);
-        WindowUI gradebookWindow = new WindowUI(table);
-        gradebookWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gradebookWindow.setVisible(true);
+        JFrame gbf = new ClassesForm("AGH", firstContainer);
+        gbf.setVisible(true);
+        gbf.setSize(600, 300);
+        //WindowUI gradebookWindow = new WindowUI(table);
+        //JTable jTable = new JTable(table);
+        //JScrollPane scrollPane = new JScrollPane(jTable);
+//        getContentPane().add(scrollPane);
+//        gbf.setTitle("Gradebook");
+//        gbf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        gbf.setLayout(new BorderLayout());
+//        gbf.setSize(300, 300);
+//        gbf.setVisible(true);
+//        JFrame frame = new JFrame("JTable Test");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JTable jTable = new JTable(table);
+//        JScrollPane scrollPane = new JScrollPane(jTable);
+//        frame.add(scrollPane);
+//        frame.setVisible(true);
+//        JButton jButton = new JButton("Kurwa");
+//        frame.add(jButton);
     }
 }
