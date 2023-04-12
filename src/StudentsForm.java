@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class StudentsForm extends JFrame{
     private JPanel studentsPanel;
@@ -17,6 +18,10 @@ public class StudentsForm extends JFrame{
     private JButton showSummary;
     private JButton sortByLastnameButton;
     private JButton sortByPointsButton;
+    private JButton findStudentByLastname;
+    private JTextField searchedLastname;
+    private JButton findStudentByPartial;
+    private JTextField searchedPart;
 
     public StudentsForm(String title, ClassOfStudent classOfStudent)
     {
@@ -71,6 +76,31 @@ public class StudentsForm extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 classOfStudent.sortByPoints();
                 createStudentsTable(classOfStudent);
+            }
+        });
+        findStudentByLastname.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String msg;
+                Student searchedStudent = classOfStudent.search(searchedLastname.getText());
+                msg = searchedStudent.toString();
+                if (msg.isEmpty()) msg = "Class dont have student with that Lastname";
+                JOptionPane.showMessageDialog(null, msg);
+                searchedLastname.setText("");
+            }
+        });
+        findStudentByPartial.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Student> searchedStudent = classOfStudent.searchPartial(searchedPart.getText());
+                String msg = "";
+                for(Student currentStudent : searchedStudent)
+                {
+                    msg += currentStudent.toString();
+                }
+                if (msg.isEmpty()) msg = "No class have student with this part in Firstname or Lastname";
+                JOptionPane.showMessageDialog(null, msg);
+                searchedPart.setText("");
             }
         });
     }

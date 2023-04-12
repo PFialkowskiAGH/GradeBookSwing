@@ -50,7 +50,6 @@ public class ClassesForm extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 List<Student> searchedStudent = container.searchStudent(classFindStudent.getText());
                 String msg = "";
-                System.out.print(searchedStudent.size());
                 for(Student currentStudent : searchedStudent)
                 {
                     msg += currentStudent.toString();
@@ -71,7 +70,7 @@ public class ClassesForm extends JFrame{
                         if (key.equals(clickedClass)) {
                             JFrame gbf = new StudentsForm(key, value);
                             gbf.setVisible(true);
-                            gbf.setSize(800, 500);
+                            gbf.setSize(1000, 700);
                         }
                     });
                 }
