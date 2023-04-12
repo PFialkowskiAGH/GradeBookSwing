@@ -70,7 +70,7 @@ public class ClassesForm extends JFrame{
                         if (key.equals(clickedClass)) {
                             JFrame gbf = new StudentsForm(key, value);
                             gbf.setVisible(true);
-                            gbf.setSize(1000, 700);
+                            gbf.setSize(1000, 900);
                         }
                     });
                 }

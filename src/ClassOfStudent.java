@@ -137,9 +137,10 @@ public class ClassOfStudent {
         Collections.sort(students, new KomparatorPunkty());
         Collections.reverse(students);
     }
-    void max()
+    String max()
     {
         System.out.println(Collections.max(students, new KomparatorPunkty()));
+        return Collections.max(students, new KomparatorPunkty()).toString();
     }
     private class KomparatorPunkty implements Comparator<Student> {
         @Override

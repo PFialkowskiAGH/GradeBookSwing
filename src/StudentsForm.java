@@ -9,7 +9,7 @@ public class StudentsForm extends JFrame{
     private JButton addStudent;
     private JTextField addStudentFirstname;
     private JTextField addStudentLastname;
-    private JComboBox addStudentCondition;
+    private JComboBox<StudentCondition> addStudentCondition;
     private JTextField addStudentYear;
     private JTextField addStudentPoints;
     private JTextField addStudentAddress;
@@ -22,6 +22,17 @@ public class StudentsForm extends JFrame{
     private JTextField searchedLastname;
     private JButton findStudentByPartial;
     private JTextField searchedPart;
+    private JTextField changedPoints;
+    private JButton addPoints;
+    private JButton removePoints;
+    private JButton getPoint;
+    private JComboBox<StudentCondition> changeCondition;
+    private JButton changedConditionButton;
+    private JTextArea messageArea;
+    private JButton countConditionButton;
+    private JLabel countedConditionLabel;
+    private JLabel maxStudent;
+    private JButton maxButton;
 
     public StudentsForm(String title, ClassOfStudent classOfStudent)
     {
@@ -31,6 +42,7 @@ public class StudentsForm extends JFrame{
         this.pack();
         createStudentsTable(classOfStudent);
         addStudentCondition.setModel(new DefaultComboBoxModel<>(StudentCondition.values()));
+        changeCondition.setModel(new DefaultComboBoxModel<>(StudentCondition.values()));
         addStudent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,6 +74,7 @@ public class StudentsForm extends JFrame{
                 String msg = classOfStudent.summary();
                 if (msg != "") JOptionPane.showMessageDialog(null, msg);
                 else JOptionPane.showMessageDialog(null, "Klasa jest pusta");
+                messageArea.setText(msg);
             }
         });
         sortByLastnameButton.addActionListener(new ActionListener() {
@@ -87,6 +100,7 @@ public class StudentsForm extends JFrame{
                 if (msg.isEmpty()) msg = "Class dont have student with that Lastname";
                 JOptionPane.showMessageDialog(null, msg);
                 searchedLastname.setText("");
+                messageArea.setText(msg);
             }
         });
         findStudentByPartial.addActionListener(new ActionListener() {
@@ -101,6 +115,65 @@ public class StudentsForm extends JFrame{
                 if (msg.isEmpty()) msg = "No class have student with this part in Firstname or Lastname";
                 JOptionPane.showMessageDialog(null, msg);
                 searchedPart.setText("");
+                messageArea.setText(msg);
+            }
+        });
+        addPoints.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Double points = Double.parseDouble(changedPoints.getText());
+                String selectedStudentLastname = studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString();
+                Student selectedStudent = classOfStudent.search(selectedStudentLastname);
+                classOfStudent.addPoints(selectedStudent, points);
+                createStudentsTable(classOfStudent);
+                changedPoints.setText("");
+            }
+        });
+        removePoints.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Double points = Double.parseDouble(changedPoints.getText());
+                String selectedStudentLastname = studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString();
+                Student selectedStudent = classOfStudent.search(selectedStudentLastname);
+                checkBeforeRemovePoints(selectedStudent, points);
+                classOfStudent.removePoints(selectedStudent, points);
+                createStudentsTable(classOfStudent);
+                changedPoints.setText("");
+            }
+        });
+        getPoint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedStudentLastname = studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString();
+                Student selectedStudent = classOfStudent.search(selectedStudentLastname);
+                checkBeforeRemovePoints(selectedStudent, 1.0);
+                classOfStudent.getStudent(selectedStudent);
+                createStudentsTable(classOfStudent);
+                changedPoints.setText("");
+            }
+        });
+        changedConditionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedStudentLastname = studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString();
+                Student selectedStudent = classOfStudent.search(selectedStudentLastname);
+                StudentCondition comboItem = (StudentCondition) changeCondition.getSelectedItem();
+                classOfStudent.changeCondition(selectedStudent, comboItem);
+                createStudentsTable(classOfStudent);
+            }
+        });
+        countConditionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StudentCondition comboItem = (StudentCondition) changeCondition.getSelectedItem();
+                int countedCondition = classOfStudent.countByCondition(comboItem);
+                countedConditionLabel.setText(String.valueOf(countedCondition));
+            }
+        });
+        maxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                maxStudent.setText(classOfStudent.max());
             }
         });
     }
@@ -109,5 +182,10 @@ public class StudentsForm extends JFrame{
     {
         ClassTableModel table = new ClassTableModel(classOfStudent.students);
         studentsTable.setModel(table);
+    }
+
+    private void checkBeforeRemovePoints(Student selectedStudent, Double points)
+    {
+        if (selectedStudent.numberOfPoint - points <= 0.0) JOptionPane.showMessageDialog(null, "Student will be removed becaufe of lack of Points");
     }
 }

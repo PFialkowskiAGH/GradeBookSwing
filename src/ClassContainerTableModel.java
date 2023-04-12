@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ClassContainerTableModel extends AbstractTableModel
 {
-    public static final String[] columnNames = {"Name", "NumberOfStudents", "MaxNumberOfStudents"};
+    public static final String[] columnNames = {"Name", "NumberOfStudents", "MaxNumberOfStudents", "Percent"};
     public List<ClassOfStudent> data;
 
     public ClassContainerTableModel(Map<?, ClassOfStudent> data)
@@ -19,7 +19,7 @@ public class ClassContainerTableModel extends AbstractTableModel
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -32,6 +32,8 @@ public class ClassContainerTableModel extends AbstractTableModel
                 return data.get(rowIndex).students.size();
             case 2:
                 return data.get(rowIndex).maxNumberOfStudents;
+            case 3:
+                return (((float) data.get(rowIndex).students.size()) / data.get(rowIndex).maxNumberOfStudents) * 100;
         }
         throw new IllegalStateException("Unhandled column index: " + columnIndex);
     }
