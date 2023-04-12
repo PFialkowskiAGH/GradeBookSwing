@@ -24,5 +24,6 @@ public class Main {
         JFrame gbf = new ClassesForm("AGH", agh);
         gbf.setVisible(true);
         gbf.setSize(600, 500);
+        //all checked in project
     }
 }
