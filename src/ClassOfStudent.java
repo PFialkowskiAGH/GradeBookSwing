@@ -13,8 +13,9 @@ public class ClassOfStudent {
         this.students = students;
         this.maxNumberOfStudents = maxNumberOfStudents;
     }
-    void addStudent(Student student)
+    String addStudent(Student student)
     {
+        String message;
         if (maxNumberOfStudents > students.size())
         {
             boolean isExist = false;
@@ -25,10 +26,20 @@ public class ClassOfStudent {
             if (!isExist) {
                 students.add(student);
                 System.out.println("Dodano studenta do klasy\n");
+                message = "";
             }
-            else System.out.println("W tej klasie jest już student o tym nazwisku\n");
+            else
+            {
+                System.out.println("W tej klasie jest już student o tym nazwisku\n");
+                message = "W tej klasie jest już student o tym nazwisku";
+            }
         }
-        else System.err.println("Przekroczono wielkość klasy\n");
+        else
+        {
+            //System.err.println("Przekroczono wielkość klasy\n");
+            message = "Przekroczono wielkość klasy";
+        }
+        return message;
     }
     void addPoints(Student student, double point)
     {

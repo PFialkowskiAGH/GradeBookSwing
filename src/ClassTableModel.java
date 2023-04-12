@@ -38,7 +38,7 @@ public class ClassTableModel extends AbstractTableModel
             case 4:
                 return data.get(rowIndex).numberOfPoint;
             case 5:
-                return data.get(rowIndex).studentAdress;
+                return data.get(rowIndex).studentAddress;
         }
         throw new IllegalStateException("Unhandled column index: " + columnIndex);
     }

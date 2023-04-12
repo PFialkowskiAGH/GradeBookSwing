@@ -4,16 +4,16 @@ public class Student implements Comparable{
     StudentCondition studentCondition;
     int birthYear;
     double numberOfPoint;
-    String studentAdress;
+    String studentAddress;
 
-    public Student (String firstName, String lastName, StudentCondition studentCondition, int birthYear, double numberOfPoint, String studentAdress)
+    public Student (String firstName, String lastName, StudentCondition studentCondition, int birthYear, double numberOfPoint, String studentAddress)
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.studentCondition = studentCondition;
         this.birthYear = birthYear;
         this.numberOfPoint = numberOfPoint;
-        this.studentAdress = studentAdress;
+        this.studentAddress = studentAddress;
     }
 
     public Student(String lastname)
@@ -24,7 +24,7 @@ public class Student implements Comparable{
     @Override
     public String toString()
     {
-        if(studentCondition != null) return "Student:\n Imie: %s\n Nazwisko: %s\n Status: %s\n Rok urodzenia: %d\n Punkty: %.2f\n Adres: %s\n".formatted(firstName, lastName, studentCondition.toString(), birthYear, numberOfPoint, studentAdress);
+        if(studentCondition != null) return "Student:\n Imie: %s\n Nazwisko: %s\n Status: %s\n Rok urodzenia: %d\n Punkty: %.2f\n Adres: %s\n".formatted(firstName, lastName, studentCondition.toString(), birthYear, numberOfPoint, studentAddress);
         else return "";
     }
 
