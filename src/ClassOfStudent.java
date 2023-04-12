@@ -149,7 +149,6 @@ public class ClassOfStudent {
             else return -1;
         }
     }
-
     String removeStudent(String lastname)
     {
         String message;
@@ -170,5 +169,14 @@ public class ClassOfStudent {
         }
         else message = "Nie można usunąć, ponieważ nie ma studenta o takim nazwisku";
         return message;
+    }
+    String changeStudent(String searchedStudentLastname, String firstname, String lastname, StudentCondition condition, Integer birthYear, Double points, String address)
+    {
+        String msg="";
+        Student student = new Student(firstname, lastname, condition, birthYear, points, address);
+        if (searchedStudentLastname.equals(lastname)) removeStudent(searchedStudentLastname);
+        msg = addStudent(student);
+        if (msg.isEmpty() && !searchedStudentLastname.equals(lastname)) removeStudent(searchedStudentLastname);
+        return msg;
     }
 }

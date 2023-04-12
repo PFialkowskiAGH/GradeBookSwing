@@ -1,6 +1,9 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class StudentsForm extends JFrame{
@@ -33,6 +36,9 @@ public class StudentsForm extends JFrame{
     private JLabel countedConditionLabel;
     private JLabel maxStudent;
     private JButton maxButton;
+    private JLabel addStudentLabel;
+    private JLabel removeStudentLabel;
+    private JPanel removeStudentPannel;
 
     public StudentsForm(String title, ClassOfStudent classOfStudent)
     {
@@ -43,13 +49,49 @@ public class StudentsForm extends JFrame{
         createStudentsTable(classOfStudent);
         addStudentCondition.setModel(new DefaultComboBoxModel<>(StudentCondition.values()));
         changeCondition.setModel(new DefaultComboBoxModel<>(StudentCondition.values()));
+        studentsTable.addMouseListener(new MouseAdapter() {
+            public void mousePressed (MouseEvent mouseEvent){
+                JTable table = (JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int row = table.rowAtPoint(point);
+                if (mouseEvent.getClickCount() == 1 && table.getSelectedRow() != -1)
+                {
+                    addStudentLabel.setText("Edit Student");
+                    removeStudentLabel.setText("Remove selected Student");
+                    removeStudentPannel.setVisible(false);
+                    addStudent.setText("Edit");
+                }
+            }
+        });
+        studentsPanel.addMouseListener(new MouseAdapter() {
+            public void mousePressed (MouseEvent mouseEvent){
+                Point point = mouseEvent.getPoint();
+                if (mouseEvent.getClickCount() == 1)
+                {
+                    studentsTable.clearSelection();
+                    addStudentLabel.setText("Add Student");
+                    removeStudentLabel.setText("Remove Student");
+                    removeStudentPannel.setVisible(true);
+                    addStudent.setText("Add");
+                }
+            }
+        });
         addStudent.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
-                Student newStudent = new Student(addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
-                String msg = classOfStudent.addStudent(newStudent);
-                studentsTable.repaint();
+            public void actionPerformed(ActionEvent e)
+            {
+                String msg = "";
+                if(studentsTable.getSelectionModel().isSelectionEmpty())
+                {
+                    StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
+                    Student newStudent = new Student(addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
+                    msg = classOfStudent.addStudent(newStudent);
+                }
+                else
+                {
+                    StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
+                    msg = classOfStudent.changeStudent(studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString(), addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
+                }
                 createStudentsTable(classOfStudent);
                 if (msg != "") JOptionPane.showMessageDialog(null, msg);
                 addStudentFirstname.setText("");
@@ -57,15 +99,31 @@ public class StudentsForm extends JFrame{
                 addStudentYear.setText("");
                 addStudentPoints.setText("");
                 addStudentAddress.setText("");
+                addStudentLabel.setText("Add Student");
+                removeStudentLabel.setText("Remove Student");
+                removeStudentPannel.setVisible(true);
+                addStudent.setText("Add");
             }
         });
         removeStudent.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String msg = classOfStudent.removeStudent(removeStudentLastname.getText());
+            public void actionPerformed(ActionEvent e)
+            {
+                String msg = "";
+                if(studentsTable.getSelectionModel().isSelectionEmpty())
+                {
+                    msg = classOfStudent.removeStudent(removeStudentLastname.getText());
+                }
+                else{
+                    msg = classOfStudent.removeStudent(studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString());
+                }
                 if (msg != "") JOptionPane.showMessageDialog(null, msg);
                 removeStudentLastname.setText("");
                 createStudentsTable(classOfStudent);
+                addStudentLabel.setText("Add Student");
+                removeStudentLabel.setText("Remove Student");
+                removeStudentPannel.setVisible(true);
+                addStudent.setText("Add");
             }
         });
         showSummary.addActionListener(new ActionListener() {

@@ -31,47 +31,45 @@ public class ClassesForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                String msg = "";
                 if(classesTable.getSelectionModel().isSelectionEmpty())
                 {
                     ClassOfStudent newClass = new ClassOfStudent(addClassName.getText(), new ArrayList<>(), Integer.parseInt(classMaxNumberOfStudents.getText()));
-                    String msg = container.addClass(newClass.className, newClass);
-                    if (msg != "") JOptionPane.showMessageDialog(null, msg);
-                    createClassesTable(container);
-                    addClassName.setText("");
-                    classMaxNumberOfStudents.setText("");
-                    addClassLabel.setText("Add Class");
+                    msg = container.addClass(newClass.className, newClass);
                 }
                 else
                 {
-                    String msg = container.changeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString(), addClassName.getText(), Integer.parseInt(classMaxNumberOfStudents.getText()));
-                    if (msg != "") JOptionPane.showMessageDialog(null, msg);
-                    createClassesTable(container);
-                    addClassName.setText("");
-                    classMaxNumberOfStudents.setText("");
-                    addClassLabel.setText("Add Class");
+                    msg = container.changeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString(), addClassName.getText(), Integer.parseInt(classMaxNumberOfStudents.getText()));
                 }
+                if (msg != "") JOptionPane.showMessageDialog(null, msg);
+                createClassesTable(container);
+                addClassName.setText("");
+                classMaxNumberOfStudents.setText("");
+                addClassLabel.setText("Add class");
+                removeClassPanel.setVisible(true);
+                removeClassLabel.setText("Remove Class");
+                addClass.setText("Add");
             }
         });
         removeClass.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String msg = "";
                 if(classesTable.getSelectionModel().isSelectionEmpty())
                 {
-                    String msg = container.removeClass(removeClassName.getText());
-                    if (msg != "") JOptionPane.showMessageDialog(null, msg);
-                    createClassesTable(container);
-                    removeClassName.setText("");
-                    removeClassLabel.setText("Remove Class");
-                    removeClassPanel.setVisible(true);
+                    msg = container.removeClass(removeClassName.getText());
                 }
                 else
                 {
-                    String msg = container.removeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString());
-                    if (msg != "") JOptionPane.showMessageDialog(null, msg);
-                    createClassesTable(container);
-                    removeClassLabel.setText("Remove Class");
-                    removeClassPanel.setVisible(true);
+                    msg = container.removeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString());
                 }
+                if (msg != "") JOptionPane.showMessageDialog(null, msg);
+                createClassesTable(container);
+                removeClassName.setText("");
+                addClassLabel.setText("Add class");
+                removeClassPanel.setVisible(true);
+                removeClassLabel.setText("Remove Class");
+                addClass.setText("Add");
             }
         });
         findStudent.addActionListener(new ActionListener() {
@@ -109,6 +107,7 @@ public class ClassesForm extends JFrame{
                     addClassLabel.setText("Edit class");
                     removeClassLabel.setText("Remove selected Class");
                     removeClassPanel.setVisible(false);
+                    addClass.setText("Edit");
                 }
             }
         });
@@ -121,6 +120,7 @@ public class ClassesForm extends JFrame{
                     addClassLabel.setText("Add class");
                     removeClassPanel.setVisible(true);
                     removeClassLabel.setText("Remove Class");
+                    addClass.setText("Add");
                 }
             }
         });
