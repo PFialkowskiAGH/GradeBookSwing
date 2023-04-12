@@ -40,6 +40,7 @@ public class StudentsForm extends JFrame{
     private JLabel addStudentLabel;
     private JLabel removeStudentLabel;
     private JPanel removeStudentPannel;
+    private JPanel pointsPanel;
 
     public StudentsForm(String title, ClassOfStudent classOfStudent)
     {
@@ -50,6 +51,8 @@ public class StudentsForm extends JFrame{
         createStudentsTable(classOfStudent);
         addStudentCondition.setModel(new DefaultComboBoxModel<>(StudentCondition.values()));
         changeCondition.setModel(new DefaultComboBoxModel<>(StudentCondition.values()));
+        pointsPanel.setVisible(false);
+        changedConditionButton.setVisible(false);
         studentsTable.addMouseListener(new MouseAdapter() {
             public void mousePressed (MouseEvent mouseEvent){
                 JTable table = (JTable) mouseEvent.getSource();
@@ -61,6 +64,8 @@ public class StudentsForm extends JFrame{
                     removeStudentLabel.setText("Remove selected Student");
                     removeStudentPannel.setVisible(false);
                     addStudent.setText("Edit");
+                    pointsPanel.setVisible(true);
+                    changedConditionButton.setVisible(true);
                 }
             }
         });
@@ -74,6 +79,8 @@ public class StudentsForm extends JFrame{
                     removeStudentLabel.setText("Remove Student");
                     removeStudentPannel.setVisible(true);
                     addStudent.setText("Add");
+                    pointsPanel.setVisible(false);
+                    changedConditionButton.setVisible(false);
                 }
             }
         });
