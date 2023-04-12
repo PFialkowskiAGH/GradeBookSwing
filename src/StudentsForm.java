@@ -83,12 +83,21 @@ public class StudentsForm extends JFrame{
                 String msg = "";
                 if(studentsTable.getSelectionModel().isSelectionEmpty())
                 {
-                    StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
-                    Student newStudent = new Student(addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
-                    msg = classOfStudent.addStudent(newStudent);
+                    if (addStudentFirstname.getText().isEmpty() || addStudentLastname.getText().isEmpty() || addStudentYear.getText().isEmpty() || addStudentPoints.getText().isEmpty() || addStudentAddress.getText().isEmpty()) msg = "Fill all necessary field to create student";
+                    else
+                    {
+                        StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
+                        Student newStudent = new Student(addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
+                        msg = classOfStudent.addStudent(newStudent);
+                    }
                 }
                 else
                 {
+                    if (addStudentFirstname.getText().isEmpty()) addStudentFirstname.setText(studentsTable.getValueAt(studentsTable.getSelectedRow(), 0).toString());
+                    if (addStudentLastname.getText().isEmpty()) addStudentLastname.setText(studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString());
+                    if (addStudentYear.getText().isEmpty()) addStudentYear.setText(studentsTable.getValueAt(studentsTable.getSelectedRow(), 3).toString());
+                    if (addStudentPoints.getText().isEmpty()) addStudentPoints.setText(studentsTable.getValueAt(studentsTable.getSelectedRow(), 4).toString());
+                    if (addStudentAddress.getText().isEmpty()) addStudentAddress.setText(studentsTable.getValueAt(studentsTable.getSelectedRow(), 5).toString());
                     StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
                     msg = classOfStudent.changeStudent(studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString(), addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
                 }
@@ -112,7 +121,8 @@ public class StudentsForm extends JFrame{
                 String msg = "";
                 if(studentsTable.getSelectionModel().isSelectionEmpty())
                 {
-                    msg = classOfStudent.removeStudent(removeStudentLastname.getText());
+                    if(removeStudentLastname.getText().isEmpty()) msg = "Write lastname of student that you want delete or select this student in table";
+                    else msg = classOfStudent.removeStudent(removeStudentLastname.getText());
                 }
                 else{
                     msg = classOfStudent.removeStudent(studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString());
@@ -153,27 +163,36 @@ public class StudentsForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String msg;
-                Student searchedStudent = classOfStudent.search(searchedLastname.getText());
-                msg = searchedStudent.toString();
-                if (msg.isEmpty()) msg = "Class dont have student with that Lastname";
+                if (!searchedLastname.getText().isEmpty())
+                {
+                    Student searchedStudent = classOfStudent.search(searchedLastname.getText());
+                    msg = searchedStudent.toString();
+                    if (msg.isEmpty()) msg = "Class dont have student with that Lastname";
+                    searchedLastname.setText("");
+                    messageArea.setText(msg);
+                }
+                else msg = "Write lastname you want searched in appropriate field";
                 JOptionPane.showMessageDialog(null, msg);
-                searchedLastname.setText("");
-                messageArea.setText(msg);
             }
         });
         findStudentByPartial.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<Student> searchedStudent = classOfStudent.searchPartial(searchedPart.getText());
                 String msg = "";
-                for(Student currentStudent : searchedStudent)
+                if (!searchedPart.getText().isEmpty())
                 {
-                    msg += currentStudent.toString();
+                    List<Student> searchedStudent = classOfStudent.searchPartial(searchedPart.getText());
+                    for(Student currentStudent : searchedStudent)
+                    {
+                        msg += currentStudent.toString();
+                    }
+                    if (msg.isEmpty()) msg = "No class have student with this part in Firstname or Lastname";
+
+                    searchedPart.setText("");
+                    messageArea.setText(msg);
                 }
-                if (msg.isEmpty()) msg = "No class have student with this part in Firstname or Lastname";
+                else msg = "Write part of firstname, lastname you want searched in appropriate field";
                 JOptionPane.showMessageDialog(null, msg);
-                searchedPart.setText("");
-                messageArea.setText(msg);
             }
         });
         addPoints.addActionListener(new ActionListener() {
