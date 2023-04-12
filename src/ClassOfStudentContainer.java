@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClassOfStudentContainer {
     String nameContainer;
@@ -74,5 +76,28 @@ public class ClassOfStudentContainer {
             searchedStudent.add(value.search(lastname));
         });
         return searchedStudent;
+    }
+    String changeClass(String searchedClassName, String className, Integer maxNumberOfPoints)
+    {
+        ClassOfStudent classOfStudent = new ClassOfStudent(className, new ArrayList<>(), maxNumberOfPoints);
+        final boolean[] isExist = {false};
+        mapOfClasses.forEach((key, value) ->
+        {
+            if (className.equals(key)) isExist[0] = true;
+        });
+        if(isExist[0] && !className.equals(searchedClassName)) return "Nie jest możliwa edycja klasy, klasa o takiej nazwie już istnieje";
+        else
+        {
+            mapOfClasses.forEach((key, value) ->
+            {
+                if (searchedClassName.equals(key))
+                {
+                    classOfStudent.students = value.students;
+                }
+            });
+            removeClass(searchedClassName);
+            addClass(classOfStudent.className,classOfStudent);
+            return "";
+        }
     }
 }

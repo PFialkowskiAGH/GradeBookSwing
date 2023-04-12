@@ -16,6 +16,9 @@ public class ClassesForm extends JFrame{
     private JTextField removeClassName;
     private JButton findStudent;
     private JTextField classFindStudent;
+    private JLabel addClassLabel;
+    private JLabel removeClassLabel;
+    private JPanel removeClassPanel;
 
     public ClassesForm(String title, ClassOfStudentContainer container)
     {
@@ -28,21 +31,47 @@ public class ClassesForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                ClassOfStudent newClass = new ClassOfStudent(addClassName.getText(), new ArrayList<>(), Integer.parseInt(classMaxNumberOfStudents.getText()));
-                String msg = container.addClass(newClass.className, newClass);
-                if (msg != "") JOptionPane.showMessageDialog(null, msg);
-                createClassesTable(container);
-                addClassName.setText("");
-                classMaxNumberOfStudents.setText("");
+                if(classesTable.getSelectionModel().isSelectionEmpty())
+                {
+                    ClassOfStudent newClass = new ClassOfStudent(addClassName.getText(), new ArrayList<>(), Integer.parseInt(classMaxNumberOfStudents.getText()));
+                    String msg = container.addClass(newClass.className, newClass);
+                    if (msg != "") JOptionPane.showMessageDialog(null, msg);
+                    createClassesTable(container);
+                    addClassName.setText("");
+                    classMaxNumberOfStudents.setText("");
+                    addClassLabel.setText("Add Class");
+                }
+                else
+                {
+                    String msg = container.changeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString(), addClassName.getText(), Integer.parseInt(classMaxNumberOfStudents.getText()));
+                    if (msg != "") JOptionPane.showMessageDialog(null, msg);
+                    createClassesTable(container);
+                    addClassName.setText("");
+                    classMaxNumberOfStudents.setText("");
+                    addClassLabel.setText("Add Class");
+                }
             }
         });
         removeClass.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String msg = container.removeClass(removeClassName.getText());
-                if (msg != "") JOptionPane.showMessageDialog(null, msg);
-                createClassesTable(container);
-                removeClassName.setText("");
+                if(classesTable.getSelectionModel().isSelectionEmpty())
+                {
+                    String msg = container.removeClass(removeClassName.getText());
+                    if (msg != "") JOptionPane.showMessageDialog(null, msg);
+                    createClassesTable(container);
+                    removeClassName.setText("");
+                    removeClassLabel.setText("Remove Class");
+                    removeClassPanel.setVisible(true);
+                }
+                else
+                {
+                    String msg = container.removeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString());
+                    if (msg != "") JOptionPane.showMessageDialog(null, msg);
+                    createClassesTable(container);
+                    removeClassLabel.setText("Remove Class");
+                    removeClassPanel.setVisible(true);
+                }
             }
         });
         findStudent.addActionListener(new ActionListener() {
@@ -63,7 +92,8 @@ public class ClassesForm extends JFrame{
                 JTable table = (JTable) mouseEvent.getSource();
                 Point point = mouseEvent.getPoint();
                 int row = table.rowAtPoint(point);
-                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1)
+                {
                     String clickedClass = classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString();
                     container.mapOfClasses.forEach((key, value) ->
                     {
@@ -73,6 +103,24 @@ public class ClassesForm extends JFrame{
                             gbf.setSize(1000, 900);
                         }
                     });
+                }
+                if (mouseEvent.getClickCount() == 1 && table.getSelectedRow() != -1)
+                {
+                    addClassLabel.setText("Edit class");
+                    removeClassLabel.setText("Remove selected Class");
+                    removeClassPanel.setVisible(false);
+                }
+            }
+        });
+        classesPanel.addMouseListener(new MouseAdapter() {
+            public void mousePressed (MouseEvent mouseEvent){
+                Point point = mouseEvent.getPoint();
+                if (mouseEvent.getClickCount() == 1)
+                {
+                    classesTable.clearSelection();
+                    addClassLabel.setText("Add class");
+                    removeClassPanel.setVisible(true);
+                    removeClassLabel.setText("Remove Class");
                 }
             }
         });
