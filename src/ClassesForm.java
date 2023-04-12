@@ -50,7 +50,12 @@ public class ClassesForm extends JFrame{
                 {
                     if (addClassName.getText().isEmpty()) addClassName.setText(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString());
                     if (classMaxNumberOfStudents.getText().isEmpty()) classMaxNumberOfStudents.setText(classesTable.getValueAt(classesTable.getSelectedRow(), 2).toString());
-                    msg = container.changeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString(), addClassName.getText(), Integer.parseInt(classMaxNumberOfStudents.getText()));
+                    try {
+                        msg = container.changeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString(), addClassName.getText(), Integer.parseInt(classMaxNumberOfStudents.getText()));
+                    }
+                    catch (NumberFormatException error) {
+                        msg = "You have to write Ineger number in MaxNumberOfStudents field";
+                    }
                 }
                 if (msg != "") JOptionPane.showMessageDialog(null, msg);
                 createClassesTable(container);

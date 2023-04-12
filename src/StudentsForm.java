@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsForm extends JFrame{
@@ -86,9 +87,21 @@ public class StudentsForm extends JFrame{
                     if (addStudentFirstname.getText().isEmpty() || addStudentLastname.getText().isEmpty() || addStudentYear.getText().isEmpty() || addStudentPoints.getText().isEmpty() || addStudentAddress.getText().isEmpty()) msg = "Fill all necessary field to create student";
                     else
                     {
-                        StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
-                        Student newStudent = new Student(addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
-                        msg = classOfStudent.addStudent(newStudent);
+                        try {
+                            Integer.parseInt(addStudentYear.getText());
+                            try
+                            {
+                                StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
+                                Student newStudent = new Student(addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
+                                msg = classOfStudent.addStudent(newStudent);
+                            }
+                            catch (NumberFormatException error) {
+                                msg = "You have to write number in Points field";
+                            }
+                        }
+                        catch (NumberFormatException error) {
+                            msg = "You have to write Ineger number in StudentBirthYear field";
+                        }
                     }
                 }
                 else
