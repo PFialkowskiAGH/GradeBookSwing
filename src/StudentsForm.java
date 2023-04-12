@@ -112,7 +112,20 @@ public class StudentsForm extends JFrame{
                     if (addStudentPoints.getText().isEmpty()) addStudentPoints.setText(studentsTable.getValueAt(studentsTable.getSelectedRow(), 4).toString());
                     if (addStudentAddress.getText().isEmpty()) addStudentAddress.setText(studentsTable.getValueAt(studentsTable.getSelectedRow(), 5).toString());
                     StudentCondition comboItem = (StudentCondition) addStudentCondition.getSelectedItem();
-                    msg = classOfStudent.changeStudent(studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString(), addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
+                    try {
+                        Integer.parseInt(addStudentYear.getText());
+                        try
+                        {
+                            msg = classOfStudent.changeStudent(studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString(), addStudentFirstname.getText(), addStudentLastname.getText(), comboItem, Integer.parseInt(addStudentYear.getText()), Double.parseDouble(addStudentPoints.getText()), addStudentAddress.getText());
+
+                        }
+                        catch (NumberFormatException error) {
+                            msg = "You have to write number in Points field";
+                        }
+                    }
+                    catch (NumberFormatException error) {
+                        msg = "You have to write Ineger number in StudentBirthYear field";
+                    }
                 }
                 createStudentsTable(classOfStudent);
                 if (msg != "") JOptionPane.showMessageDialog(null, msg);
@@ -211,24 +224,34 @@ public class StudentsForm extends JFrame{
         addPoints.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Double points = Double.parseDouble(changedPoints.getText());
-                String selectedStudentLastname = studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString();
-                Student selectedStudent = classOfStudent.search(selectedStudentLastname);
-                classOfStudent.addPoints(selectedStudent, points);
-                createStudentsTable(classOfStudent);
-                changedPoints.setText("");
+                try {
+                    Double points = Double.parseDouble(changedPoints.getText());
+                    String selectedStudentLastname = studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString();
+                    Student selectedStudent = classOfStudent.search(selectedStudentLastname);
+                    classOfStudent.addPoints(selectedStudent, points);
+                    createStudentsTable(classOfStudent);
+                    changedPoints.setText("");
+                }
+                catch (NumberFormatException error) {
+                    JOptionPane.showMessageDialog(null, "You have to write number in Points field in Points Function");
+                }
             }
         });
         removePoints.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Double points = Double.parseDouble(changedPoints.getText());
-                String selectedStudentLastname = studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString();
-                Student selectedStudent = classOfStudent.search(selectedStudentLastname);
-                checkBeforeRemovePoints(selectedStudent, points);
-                classOfStudent.removePoints(selectedStudent, points);
-                createStudentsTable(classOfStudent);
-                changedPoints.setText("");
+                try {
+                    Double points = Double.parseDouble(changedPoints.getText());
+                    String selectedStudentLastname = studentsTable.getValueAt(studentsTable.getSelectedRow(), 1).toString();
+                    Student selectedStudent = classOfStudent.search(selectedStudentLastname);
+                    checkBeforeRemovePoints(selectedStudent, points);
+                    classOfStudent.removePoints(selectedStudent, points);
+                    createStudentsTable(classOfStudent);
+                    changedPoints.setText("");
+                }
+                catch (NumberFormatException error) {
+                    JOptionPane.showMessageDialog(null, "You have to write number in Points field in Points Function");
+                }
             }
         });
         getPoint.addActionListener(new ActionListener() {
