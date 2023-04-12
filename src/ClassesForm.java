@@ -37,8 +37,13 @@ public class ClassesForm extends JFrame{
                     if (addClassName.getText().isEmpty() || classMaxNumberOfStudents.getText().isEmpty()) msg = "Fill all necessary field to create class";
                     else
                     {
-                        ClassOfStudent newClass = new ClassOfStudent(addClassName.getText(), new ArrayList<>(), Integer.parseInt(classMaxNumberOfStudents.getText()));
-                        msg = container.addClass(newClass.className, newClass);
+                        try {
+                            ClassOfStudent newClass = new ClassOfStudent(addClassName.getText(), new ArrayList<>(), Integer.parseInt(classMaxNumberOfStudents.getText()));
+                            msg = container.addClass(newClass.className, newClass);
+                        }
+                        catch (NumberFormatException error) {
+                            msg = "You have to write Ineger number in MaxNumberOfStudents field";
+                        }
                     }
                 }
                 else
