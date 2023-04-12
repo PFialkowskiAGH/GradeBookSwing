@@ -19,6 +19,8 @@ public class ClassesForm extends JFrame{
     private JLabel addClassLabel;
     private JLabel removeClassLabel;
     private JPanel removeClassPanel;
+    private JPanel removePanel;
+    private JPanel findPanel;
 
     public ClassesForm(String title, ClassOfStudentContainer container)
     {
@@ -155,5 +157,15 @@ public class ClassesForm extends JFrame{
     {
         ClassContainerTableModel table = new ClassContainerTableModel(container.mapOfClasses);
         classesTable.setModel(table);
+        if (container.mapOfClasses.isEmpty())
+        {
+            removePanel.setVisible(false);
+            findPanel.setVisible(false);
+        }
+        else
+        {
+            removePanel.setVisible(true);
+            findPanel.setVisible(true);
+        }
     }
 }
