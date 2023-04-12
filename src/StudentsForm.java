@@ -41,6 +41,12 @@ public class StudentsForm extends JFrame{
     private JLabel removeStudentLabel;
     private JPanel removeStudentPannel;
     private JPanel pointsPanel;
+    private JPanel classFunctionPanel;
+    private JPanel conditionFunctionPanel;
+    private JPanel maxStudentPanel;
+    private JPanel findPartialPanel;
+    private JPanel findLastnamePanel;
+    private JPanel removePanel;
 
     public StudentsForm(String title, ClassOfStudent classOfStudent)
     {
@@ -302,6 +308,24 @@ public class StudentsForm extends JFrame{
     {
         ClassTableModel table = new ClassTableModel(classOfStudent.students);
         studentsTable.setModel(table);
+        if (classOfStudent.students.isEmpty())
+        {
+            classFunctionPanel.setVisible(false);
+            conditionFunctionPanel.setVisible(false);
+            maxStudentPanel.setVisible(false);
+            findPartialPanel.setVisible(false);
+            findLastnamePanel.setVisible(false);
+            removePanel.setVisible(false);
+        }
+        else
+        {
+            classFunctionPanel.setVisible(true);
+            conditionFunctionPanel.setVisible(true);
+            maxStudentPanel.setVisible(true);
+            findPartialPanel.setVisible(true);
+            findLastnamePanel.setVisible(true);
+            removePanel.setVisible(true);
+        }
     }
 
     private void checkBeforeRemovePoints(Student selectedStudent, Double points)
