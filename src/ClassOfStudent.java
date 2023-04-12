@@ -114,12 +114,14 @@ public class ClassOfStudent {
         }
         return numberOfStudents;
     }
-    void summary()
+    String summary()
     {
+        String message = "";
         for(Student currentStudent : students)
         {
-            currentStudent.print();
+            message += currentStudent.print();
         }
+        return message;
     };
     void sortByLastName()
     {
@@ -145,5 +147,27 @@ public class ClassOfStudent {
             if (o1.numberOfPoint > o2.numberOfPoint) return 1;
             else return -1;
         }
+    }
+
+    String removeStudent(String lastname)
+    {
+        String message;
+        boolean isExist = false;
+        Student removedStudent = new Student(lastname);
+        for (Student element : students)
+        {
+            if (element.compare(removedStudent))
+            {
+                isExist = true;
+                removedStudent = element;
+            }
+        }
+        if(isExist)
+        {
+            message = "";
+            this.students.remove(removedStudent);
+        }
+        else message = "Nie można usunąć, ponieważ nie ma studenta o takim nazwisku";
+        return message;
     }
 }

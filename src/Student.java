@@ -28,9 +28,9 @@ public class Student implements Comparable{
         else return "";
     }
 
-    void print()
+    String print()
     {
-        System.out.println(this);
+        return this.toString();
     }
 
     @Override

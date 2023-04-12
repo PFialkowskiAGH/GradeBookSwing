@@ -77,6 +77,10 @@ public class ClassesForm extends JFrame{
                 }
             }
         });
+        if(this.hasFocus())
+        {
+            createClassesTable(container);
+        }
     }
 
     private void createClassesTable(ClassOfStudentContainer container)
