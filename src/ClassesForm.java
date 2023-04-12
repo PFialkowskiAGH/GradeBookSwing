@@ -34,11 +34,17 @@ public class ClassesForm extends JFrame{
                 String msg = "";
                 if(classesTable.getSelectionModel().isSelectionEmpty())
                 {
-                    ClassOfStudent newClass = new ClassOfStudent(addClassName.getText(), new ArrayList<>(), Integer.parseInt(classMaxNumberOfStudents.getText()));
-                    msg = container.addClass(newClass.className, newClass);
+                    if (addClassName.getText().isEmpty() || classMaxNumberOfStudents.getText().isEmpty()) msg = "Fill all necessary field to create class";
+                    else
+                    {
+                        ClassOfStudent newClass = new ClassOfStudent(addClassName.getText(), new ArrayList<>(), Integer.parseInt(classMaxNumberOfStudents.getText()));
+                        msg = container.addClass(newClass.className, newClass);
+                    }
                 }
                 else
                 {
+                    if (addClassName.getText().isEmpty()) addClassName.setText(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString());
+                    if (classMaxNumberOfStudents.getText().isEmpty()) classMaxNumberOfStudents.setText(classesTable.getValueAt(classesTable.getSelectedRow(), 2).toString());
                     msg = container.changeClass(classesTable.getValueAt(classesTable.getSelectedRow(), 0).toString(), addClassName.getText(), Integer.parseInt(classMaxNumberOfStudents.getText()));
                 }
                 if (msg != "") JOptionPane.showMessageDialog(null, msg);
@@ -57,7 +63,8 @@ public class ClassesForm extends JFrame{
                 String msg = "";
                 if(classesTable.getSelectionModel().isSelectionEmpty())
                 {
-                    msg = container.removeClass(removeClassName.getText());
+                    if(removeClassName.getText().isEmpty()) msg = "Write name of class that you want delete or select this class in table";
+                    else msg = container.removeClass(removeClassName.getText());
                 }
                 else
                 {
@@ -75,14 +82,18 @@ public class ClassesForm extends JFrame{
         findStudent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<Student> searchedStudent = container.searchStudent(classFindStudent.getText());
-                String msg = "";
-                for(Student currentStudent : searchedStudent)
+                if (!classFindStudent.getText().isEmpty())
                 {
-                    msg += currentStudent.toString();
+                    List<Student> searchedStudent = container.searchStudent(classFindStudent.getText());
+                    String msg = "";
+                    for(Student currentStudent : searchedStudent)
+                    {
+                        msg += currentStudent.toString();
+                    }
+                    if (msg.isEmpty()) msg = "No class have student with this Lastname";
+                    JOptionPane.showMessageDialog(null, msg);
                 }
-                if (msg.isEmpty()) msg = "No class have student with this Lastname";
-                JOptionPane.showMessageDialog(null, msg);
+                else JOptionPane.showMessageDialog(null, "Write lastname you want searched in appropriate field");
             }
         });
         classesTable.addMouseListener(new MouseAdapter() {

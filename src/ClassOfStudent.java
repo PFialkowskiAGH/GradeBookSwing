@@ -31,13 +31,13 @@ public class ClassOfStudent {
             else
             {
                 System.out.println("W tej klasie jest już student o tym nazwisku\n");
-                message = "W tej klasie jest już student o tym nazwisku";
+                message = "In this class already exist student with that lastname";
             }
         }
         else
         {
             //System.err.println("Przekroczono wielkość klasy\n");
-            message = "Przekroczono wielkość klasy";
+            message = "Add student Failed. The capacity of class is full";
         }
         return message;
     }
@@ -167,7 +167,7 @@ public class ClassOfStudent {
             message = "";
             this.students.remove(removedStudent);
         }
-        else message = "Nie można usunąć, ponieważ nie ma studenta o takim nazwisku";
+        else message = "Delete failed. Student with this lastname doesnt exist";
         return message;
     }
     String changeStudent(String searchedStudentLastname, String firstname, String lastname, StudentCondition condition, Integer birthYear, Double points, String address)

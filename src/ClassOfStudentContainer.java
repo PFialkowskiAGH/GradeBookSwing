@@ -13,7 +13,7 @@ public class ClassOfStudentContainer {
         if(mapOfClasses.containsKey(className))
         {
             System.out.println("Taka klasa jest już w kontenerze");
-            message = "Taka klasa jest już w kontenerze";
+            message = "This class is already in container";
         }
         else
         {
@@ -36,7 +36,7 @@ public class ClassOfStudentContainer {
         else
         {
             System.out.println("Taka klasa nie jest w kontenerze");
-            message = "Taka klasa nie jest w kontenerze";
+            message = "This class isnt in container";
         }
         return message;
     }
@@ -85,7 +85,7 @@ public class ClassOfStudentContainer {
         {
             if (className.equals(key)) isExist[0] = true;
         });
-        if(isExist[0] && !className.equals(searchedClassName)) return "Nie jest możliwa edycja klasy, klasa o takiej nazwie już istnieje";
+        if(isExist[0] && !className.equals(searchedClassName)) return "You cant change name of class, class with this name already exist";
         else
         {
             mapOfClasses.forEach((key, value) ->
