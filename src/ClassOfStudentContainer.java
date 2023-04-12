@@ -5,24 +5,38 @@ public class ClassOfStudentContainer {
     String nameContainer;
     HashMap<String, ClassOfStudent> mapOfClasses = new HashMap<String, ClassOfStudent>() {};
 
-    void addClass(String className, ClassOfStudent classOfStudent)
+    String addClass(String className, ClassOfStudent classOfStudent)
     {
-        if(mapOfClasses.containsKey(className)) System.out.println("Taka klasa jest już w kontenerze");
+        String message;
+        if(mapOfClasses.containsKey(className))
+        {
+            System.out.println("Taka klasa jest już w kontenerze");
+            message = "Taka klasa jest już w kontenerze";
+        }
         else
         {
             mapOfClasses.put(className, classOfStudent);
             System.out.println("Dodano klasę %s do konetenera".formatted(className));
+            message = "";
         }
+        return message;
     }
-    void removeClass(String className)
+    String removeClass(String className)
     {
+        String message;
         if(mapOfClasses.containsKey(className))
         {
             mapOfClasses.remove(className);
             System.out.println("Usunięto klasę z konetenra");
+            message = "";
         }
 
-        else System.out.println("Taka klasa nie jest w kontenerze");
+        else
+        {
+            System.out.println("Taka klasa nie jest w kontenerze");
+            message = "Taka klasa nie jest w kontenerze";
+        }
+        return message;
     }
     ArrayList findEmptyGroups()
     {
@@ -54,7 +68,7 @@ public class ClassOfStudentContainer {
 
     ArrayList searchStudent(String lastname)
     {
-        ArrayList searchedStudent = new ArrayList<>();
+        ArrayList searchedStudent = new ArrayList<Student>();
         mapOfClasses.forEach((key, value) ->
         {
             searchedStudent.add(value.search(lastname));

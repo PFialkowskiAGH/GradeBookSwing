@@ -38,9 +38,4 @@ public class ClassContainerTableModel extends AbstractTableModel
     public String getColumnName(int col) {
         return columnNames[col];
     }
-
-    public void add()
-    {
-
-    }
 }

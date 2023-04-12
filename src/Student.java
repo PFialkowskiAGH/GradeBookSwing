@@ -24,7 +24,8 @@ public class Student implements Comparable{
     @Override
     public String toString()
     {
-        return "Student:\n Imie: %s\n Nazwisko: %s\n Status: %s\n Rok urodzenia: %d\n Punkty: %.2f\n Adres: %s\n".formatted(firstName, lastName, studentCondition.toString(), birthYear, numberOfPoint, studentAdress);
+        if(studentCondition != null) return "Student:\n Imie: %s\n Nazwisko: %s\n Status: %s\n Rok urodzenia: %d\n Punkty: %.2f\n Adres: %s\n".formatted(firstName, lastName, studentCondition.toString(), birthYear, numberOfPoint, studentAdress);
+        else return "";
     }
 
     void print()
@@ -34,7 +35,7 @@ public class Student implements Comparable{
 
     @Override
     public boolean compare(Student comparedStudent) {
-        if (this.lastName == comparedStudent.lastName) return true;
+        if (this.lastName.equals(comparedStudent.lastName)) return true;
         else return false;
     }
 }
